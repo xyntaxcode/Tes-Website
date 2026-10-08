@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xyntax - AI Assistant Showcase</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --accent: #10b981;
+      --danger: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 0 1rem;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 3rem 0; }
+    /* Hero */
+    .hero { text-align: center; margin-bottom: 3.5rem; }
+    .avatar {
+      width: 76px; height: 76px; background: #0284c7;
+      color: #fff; border-radius: 50%; display: inline-flex;
+      align-items: center; justify-content: center; font-size: 2rem;
+      font-weight: 700; margin-bottom: 1rem; box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; background: rgba(16, 185, 129, 0.15);
+      color: var(--accent); border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 9999px; font-size: 0.85rem; font-weight: 500; margin-bottom: 1rem;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .tagline { color: var(--text-muted); font-size: 1.15rem; max-width: 640px; margin: 0 auto; }
+    /* Comparison Card */
+    .section-title { font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 3.5rem; }
+    .card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 1.5rem;
+    }
+    .card h3 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+    .card-chaos h3 { color: var(--danger); }
+    .card-solution h3 { color: var(--accent); }
+    .card ul { list-style: none; }
+    .card li { margin-bottom: 0.75rem; font-size: 0.95rem; color: var(--text-muted); display: flex; gap: 8px; }
+    /* Core Capabilities */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 3.5rem; }
+    .cap-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 1.25rem;
+    }
+    .cap-card .icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+    .cap-card h4 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-main); }
+    .cap-card p { font-size: 0.88rem; color: var(--text-muted); }
+    /* Simulation */
+    .sim-box {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 1.5rem; margin-bottom: 3.5rem;
+    }
+    .sim-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .btn-sim {
+      background: #0f172a; border: 1px solid var(--card-border);
+      color: var(--text-main); padding: 8px 14px; border-radius: 8px;
+      font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-sim:hover { border-color: var(--primary); color: var(--primary); }
+    .chat-window {
+      background: #090d16; border-radius: 8px; padding: 1.25rem;
+      min-height: 180px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .msg { max-width: 80%; padding: 10px 14px; border-radius: 10px; font-size: 0.9rem; }
+    .msg-user { align-self: flex-end; background: #1e3a8a; color: #fff; }
+    .msg-bot { align-self: flex-start; background: var(--card-bg); color: var(--text-main); border: 1px solid var(--card-border); }
+    .typing { align-self: flex-start; color: var(--text-muted); font-size: 0.85rem; font-style: italic; }
+    /* Footer & CTA */
+    footer { text-align: center; border-top: 1px solid var(--card-border); padding-top: 2.5rem; }
+    .btn-cta {
+      display: inline-block; background: var(--primary); color: #0f172a;
+      text-decoration: none; padding: 12px 28px; border-radius: 8px;
+      font-weight: 600; font-size: 1rem; transition: background 0.2s; margin-bottom: 1.25rem;
+    }
+    .btn-cta:hover { background: var(--primary-hover); }
+    .footer-note { font-size: 0.85rem; color: var(--text-muted); }
+    @media (max-width: 768px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- 1. Hero Section -->
+    <header class="hero">
+      <div class="avatar">x</div>
+      <div><span class="badge">🟢 Status: Active &amp; Ready 24/7</span></div>
+      <h1>xyntax</h1>
+      <p class="tagline">Asisten andal yang menuntaskan setiap tugas tanpa celah: selalu melakukan double-check dan tidak pernah berasumsi.</p>
+    </header>
+
+    <!-- 2. Problem & Solution Card -->
+    <section>
+      <h2 class="section-title">The Chaos vs The Solution</h2>
+      <div class="grid-2">
+        <div class="card card-chaos">
+          <h3><span>✕</span> The Chaos</h3>
+          <ul>
+            <li><span>•</span> Malas menelusuri &amp; merangkum berbagai sumber informasi secara mendalam.</li>
+            <li><span>•</span> Task list harian sering terlewat dan rencana kerja berantakan.</li>
+            <li><span>•</span> Terlalu fokus bekerja hingga lupa waktu dan abai terhadap prioritas berikutnya.</li>
+          </ul>
+        </div>
+        <div class="card card-solution">
+          <h3><span>✓</span> The Solution</h3>
+          <ul>
+            <li><span>•</span> Riset mandiri berbasis web browsing dan verifikasi multi-sumber tanpa asumsi.</li>
+            <li><span>•</span> Sinkronisasi Google Calendar: carry-over task otomatis ke hari berikutnya jika belum tuntas.</li>
+            <li><span>•</span> Proactive check-in berkala untuk menanyakan progres serta mengingatkan istirahat &amp; next step.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Core Capabilities -->
+    <section>
+      <h2 class="section-title">Fitur &amp; Integrasi Utama</h2>
+      <div class="grid-3">
+        <div class="cap-card">
+          <div class="icon">🔍</div>
+          <h4>Deep Research &amp; Fact-Check</h4>
+          <p>Terhubung ke web browsing untuk mengumpulkan konteks, pola pikir penyelesaian, dan memvalidasi keakuratan data tanpa spekulasi.</p>
+        </div>
+        <div class="cap-card">
+          <div class="icon">📅</div>
+          <h4>Calendar Task Rescheduler</h4>
+          <p>Otomatis menjadwalkan ulang agenda di Google Calendar saat task tertunda, memastikan alur kerja hari berikutnya tetap tertata rapi.</p>
+        </div>
+        <div class="cap-card">
+          <div class="icon">📂</div>
+          <h4>Workspace Integration</h4>
+          <p>Integrasi seamless dengan Google Drive dan Google Sheets untuk pencatatan progres, penyimpanan dokumen, dan pemantauan time-tracking.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Interactive Simulation -->
+    <section>
+      <h2 class="section-title">Simulasi Kinerja xyntax</h2>
+      <div class="sim-box">
+        <div class="sim-controls">
+          <button class="btn-sim" onclick="runSim(0)">Cari Sumber Riset</button>
+          <button class="btn-sim" onclick="runSim(1)">Jadwalkan Task Sisa</button>
+          <button class="btn-sim" onclick="runSim(2)">Check-in &amp; Reminder</button>
+        </div>
+        <div class="chat-window" id="chatWindow">
+          <div class="msg msg-bot">Halo! Saya xyntax. Pilih skenario di atas untuk melihat bagaimana saya mengelola pekerjaan Anda.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Footer & CTA -->
+    <footer>
+      <a href="https://wa.me/6285155001899" target="_blank" rel="noopener" class="btn-cta">Hubungi via WhatsApp</a>
+      <p class="footer-note">Built with AI · AI Builder Bootcamp Showcase</p>
+    </footer>
+  </div>
+
+  <script>
+    const scenarios = [
+      {
+        user: "Tolong carikan panduan teknis implementasi database, saya malas baca dokumentasi yang panjang.",
+        bot: "Saya telah menelusuri beberapa dokumentasi resmi via browser, memverifikasi kompatibilitasnya tanpa asumsi, dan merangkum 3 langkah utamanya di Google Sheets untuk Anda."
+      },
+      {
+        user: "Hari ini sudah malam dan task drafting proposal belum selesai.",
+        bot: "Saya tandai di task log dan sudah menambahkan blok kerja baru di Google Calendar Anda besok pagi pukul 09:00 WIB agar jadwal tetap teratur."
+      },
+      {
+        user: "Berapa lama saya sudah bekerja di sesi ini?",
+        bot: "Anda sudah bekerja fokus selama 3 jam nonstop. Bagaimana progres task saat ini? Waktunya rehat sejenak sebelum kita lanjut ke review materi berikutnya."
+      }
+    ];
+
+    function runSim(index) {
+      const chat = document.getElementById('chatWindow');
+      const data = scenarios[index];
+      chat.innerHTML = `<div class="msg msg-user">${data.user}</div><div class="typing" id="typing">xyntax sedang memproses &amp; double-checking data...</div>`;
+      setTimeout(() => {
+        const typing = document.getElementById('typing');
+        if (typing) typing.remove();
+        chat.innerHTML += `<div class="msg msg-bot">${data.bot}</div>`;
+      }, 700);
+    }
+  </script>
+</body>
+</html>
