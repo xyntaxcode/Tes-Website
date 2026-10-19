@@ -90,6 +90,23 @@
     .msg-user { align-self: flex-end; background: var(--orange); color: var(--cream); }
     .msg-bot { align-self: flex-start; background: var(--teal); color: var(--cream); }
     .typing { align-self: flex-start; color: var(--teal); font-size: 0.85rem; font-style: italic; }
+    /* Places table */
+    .table-wrap {
+      overflow-x: auto; border: 2px solid var(--teal);
+      border-radius: 12px; margin-bottom: 3.5rem;
+    }
+    #places { width: 100%; border-collapse: collapse; font-size: 0.9rem; font-weight: 500; }
+    #places th {
+      background: var(--teal); color: var(--cream); text-align: left;
+      padding: 10px 12px; white-space: nowrap;
+    }
+    #places td { padding: 10px 12px; color: var(--teal); border-bottom: 1px solid var(--teal-light); }
+    #places tbody tr:last-child td { border-bottom: none; }
+    #places a {
+      display: inline-block; background: var(--orange); color: var(--cream);
+      padding: 2px 12px; border-radius: 6px; text-decoration: none; font-weight: 700;
+    }
+    #places a:hover { background: var(--teal); }
     /* Footer & CTA */
     footer { text-align: center; border-top: 2px solid var(--teal); padding-top: 2.5rem; }
     .btn-cta {
@@ -174,7 +191,20 @@
       </div>
     </section>
 
-    <!-- 5. Footer & CTA -->
+    <!-- 5. Places Table (Supabase) -->
+    <section>
+      <h2 class="section-title">Daftar Tempat</h2>
+      <div class="table-wrap">
+        <table id="places">
+          <thead>
+            <tr><th>Nama</th><th>Kategori</th><th>Rating</th><th>Review</th><th>Kota</th><th>Telepon</th><th>Maps</th></tr>
+          </thead>
+          <tbody><tr><td colspan="7">Memuat data...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. Footer & CTA -->
     <footer>
       <a href="https://wa.me/6285155001899" target="_blank" rel="noopener" class="btn-cta">Hubungi via WhatsApp</a>
       <p class="footer-note">Built with AI · AI Builder Bootcamp Showcase</p>
@@ -207,6 +237,49 @@
         chat.innerHTML += `<div class="msg msg-bot">${data.bot}</div>`;
       }, 700);
     }
+  </script>
+
+  <script>
+    const SUPABASE_URL = 'https://kfipnfdhstnahmigzsie.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_dR7jKBtmHzKalmRr7zbzng_S6B113dN'; // publishable key, BUKAN secret key
+
+    async function loadPlaces() {
+      const tbody = document.querySelector('#places tbody');
+      try {
+        const res = await fetch(
+          SUPABASE_URL + '/rest/v1/places?select=*&order=reviews_count.desc.nullslast&limit=100',
+          { headers: { apikey: SUPABASE_KEY } }
+        );
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const rows = await res.json();
+
+        tbody.replaceChildren();
+        for (const p of rows) {
+          const tr = document.createElement('tr');
+          for (const v of [p.title, p.category_name, p.total_score, p.reviews_count, p.city, p.phone]) {
+            const td = document.createElement('td');
+            td.textContent = v ?? '-';
+            tr.appendChild(td);
+          }
+          const td = document.createElement('td');
+          if (p.url && p.url.startsWith('https://')) {
+            const a = document.createElement('a');
+            a.href = p.url;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            a.textContent = 'Buka';
+            td.appendChild(a);
+          }
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+        }
+        if (!rows.length) tbody.innerHTML = '<tr><td colspan="7">Belum ada data.</td></tr>';
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="7">Gagal memuat data.</td></tr>';
+        console.error(e);
+      }
+    }
+    loadPlaces();
   </script>
 </body>
 </html>
