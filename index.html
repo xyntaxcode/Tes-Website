@@ -54,11 +54,13 @@
       border-radius: 12px; padding: 1.5rem;
     }
     .card h3 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
-    .card-chaos { background: var(--orange); border-color: var(--orange); }
-    .card-chaos h3, .card-chaos li { color: var(--cream); }
-    .card-solution h3 { color: var(--teal); }
     .card ul { list-style: none; }
     .card li { margin-bottom: 0.75rem; font-size: 0.95rem; font-weight: 600; color: var(--text-muted); display: flex; gap: 8px; }
+    /* Chaos = oranye, Solution = teal tua; teks krem di keduanya */
+    .card.card-chaos { background: var(--orange); border-color: var(--orange); }
+    .card.card-solution { background: var(--teal); border-color: var(--teal); }
+    .card.card-chaos h3, .card.card-chaos li,
+    .card.card-solution h3, .card.card-solution li { color: var(--cream); }
     /* Core Capabilities */
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 3.5rem; }
     .cap-card {
